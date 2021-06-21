@@ -36,7 +36,7 @@
 
 ;; To install, just drop this file into a directory in your
 ;; `load-path' and (optionally) byte-compile it.  To automatically
-;; handle files ending in '.yml', add something like:
+;; handle files ending in '.tree', add something like:
 ;;
 ;;    (require 'mol-tree-mode)
 ;;    (add-to-list 'auto-mode-alist '("\\.tree\\'" . mol-tree-mode))
