@@ -30,6 +30,7 @@
 ;; serialization format.
 ;; See https://github.com/nin-jin/tree.d for more info about this file formal.
 ;; See https://github.com/hyoo-ru/mam_mol/blob/master/view for .view.tree format
+;;
 ;; Indentation is inspired by sws-mode.el
 
 ;;; Installation:
