@@ -1,0 +1,10 @@
+deploy \/mol/logo/logo.svg
+deploy \/mol/app/demo/manifest.json
+
+pack icon git \https://github.com/nin-jin/mol_icon.git
+
+include \/mol/offline/install
+include \/mol/attach/demo
+- include \/mol/bar/demo
+- include \/mol/bench/demo
+include \/mol/book2/demo

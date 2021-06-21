@@ -1,0 +1,9 @@
+! doctype html
+? xml version \1.0
+-- \entry point
+html
+	meta @ charset \utf-8
+	body
+		a
+			@ href \https://github.com/nin-jin/tree.d/wiki/xml.tree
+			\xml.tree

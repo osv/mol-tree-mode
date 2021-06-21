@@ -1,0 +1,12 @@
+*
+	primitives /
+		\https://github.com/nin-jin/tree.d/wiki/json.tree
+		true
+		777
+		null
+	\
+		\foo
+		\bar
+		\
+			\xxx
+			\yyy

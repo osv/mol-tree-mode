@@ -1,0 +1,5 @@
+$hyoo_apps $mol_book2
+	Placeholder null
+	plugins /$mol_theme_auto
+		<= Theme $mol_theme_auto
+			color1 \#ff0

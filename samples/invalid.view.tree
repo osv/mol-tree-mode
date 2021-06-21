@@ -1,0 +1,15 @@
+$my_values $mol_view
+	- not allowed more than 1 whitespace as delimiter
+	title   @ \Values example
+	sub /
+		0
+		1.1
+		true
+		- not allowed tabs
+		false			tab here
+		- not allowed space indention
+    null
+		\I can contain any character! \("o")/
+		- I
+			am \big
+				remark...
