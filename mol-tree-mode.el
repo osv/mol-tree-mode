@@ -195,7 +195,7 @@
   "Moves left is dir is null, otherwise right. prog is '+ or '-."
   (save-excursion
     (let (first-indent indent-diff
-	  (num-lines-indented (count-lines-region begin end)))
+	  (num-lines-indented (count-words-region begin end)))
       (goto-char begin)
       (setq first-indent (current-indentation))
       (mol-tree-indent-to
