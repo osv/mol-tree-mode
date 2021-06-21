@@ -1,9 +1,9 @@
 ;;; mol-tree-mode.el --- Major mode for editing $mol tree files
 
-;; Copyright (C) 2010-2014 Olexandr Sydorchuk
+;; Copyright (C) 2021 Olexandr Sydorchuk
 
 ;; Author: Olexandr Sydorchuk <olexandr.syd@gmail.com>
-;; Package-Requires: ((emacs "24.1"))
+;; Package-Requires: ((emacs "24.3"))
 ;; Keywords: major mode data
 ;; Version: 0.9.0
 ;; URL: https://github.com/osv/mol-tree-mode
@@ -56,7 +56,7 @@
 
 ;;;###autoload
 (defgroup mol-tree nil
-  "Support for the MOL-TREE serialization format"
+  "Support for the mol-tree serialization format"
   :group 'languages
   :prefix "mol-tree-")
 
@@ -77,31 +77,31 @@
 
 (defconst mol-tree-fl-raw-re
   "\\\\.*"
-  "Regexp for syntax highlighting raw data or string started from \\")
+  "Regexp for syntax highlighting raw data or string started from backslash.")
 
 (defconst mol-tree-fl-comment-re
   "\\(-[ \t].*\\|-\\)$"
-  "Regexp for syntax highlighting comment block")
+  "Regexp for syntax highlighting comment block.")
 
 (defconst mol-tree-fl-error-space-re
   "^[ \t]*?\\([ ]+\\)"
-  "Regexp mathing a whitespace using in begining of line")
+  "Regexp mathing a whitespace using in begining of line.")
 
 (defconst mol-tree-fl-error-tabs-re
   "\\w\\([\t]+\\|  +\\)"
-  "Regexp mathing a tabs after literal")
+  "Regexp mathing a tabs after literal.")
 
 (defconst mol-tree-fl-array-type-re
   "\\W\\([/]\\)\\w"
-  "Regexp mathing word after array")
+  "Regexp mathing word after array.")
 
 (defconst mol-tree-fl-symbols-re
   "\\W\\([*^/]\\)\\W"
-  "Regexp matching array, hash: *, /, ^")
+  "Regexp matching array, hash: *, /, ^.")
 
 (defconst mol-tree-fl-builtin-values-re
   "\\b\\(true\\|false\\|null\\|NaN\\)\\b"
-  "Regexp matching a builtin values like true, false, null")
+  "Regexp matching a builtin values like true, false, null.")
 
 
 ;; Font-lock support
@@ -117,19 +117,18 @@
     ;; comment started with "-"
     (,mol-tree-fl-comment-re 0 'font-lock-comment-face t)
     ;; string
-    (,mol-tree-fl-raw-re 0 'font-lock-string-face t)
-    )
+    (,mol-tree-fl-raw-re 0 'font-lock-string-face t))
   "Font lock keywords for mol-tree mode.")
 
 
 ;; Indentation and electric keys
 
 (defmacro mol-tree-line-as-string ()
-  "Returns the current line as a string."
+  "Return the current line as a string."
   `(buffer-substring (point-at-bol) (point-at-eol)))
 
 (defun mol-tree-previous-indentation ()
-  "Gets indentation of previous line"
+  "Gets indentation of previous line."
   (save-excursion
     (forward-line -1)
     (if (bobp) 0
@@ -138,19 +137,19 @@
         (current-indentation)))))
 
 (defun mol-tree-max-indent ()
-  "Calculates max indentation"
+  "Calculates max indentation."
   (+ (mol-tree-previous-indentation) tab-width))
 
 (defun mol-tree-empty-line-p ()
-  "If line is completely empty"
+  "If line is completely empty."
   (= (point-at-bol) (point-at-eol)))
 
 (defun mol-tree-point-to-bot ()
-  "Moves point to beginning of text"
+  "Move point to beginning of text."
   (beginning-of-line-text))
 
 (defun mol-tree-do-indent-line ()
-  "Performs line indentation"
+  "Perform line indentation."
   ;;if we are not tabbed out past max indent
   (if (mol-tree-empty-line-p)
       (indent-to (mol-tree-max-indent))
@@ -162,7 +161,7 @@
         (delete-horizontal-space)))))
 
 (defun mol-tree-indent-line ()
-  "Indents current line"
+  "Indent current line."
   (interactive)
   (if (eq this-command 'indent-for-tab-command)
       (if mark-active
@@ -173,12 +172,12 @@
     (indent-to (mol-tree-previous-indentation))))
 
 (defun mol-tree-at-bol-p ()
-  "If point is at beginning of line"
+  "If point is at beginning of line."
   (interactive)
   (= (point) (point-at-bol)))
 
 (defun mol-tree-at-bot-p ()
-  "If point is at beginning of text"
+  "If point is at beginning of text."
   (= (point) (+
               (if indent-tabs-mode
                   (/ (current-indentation) tab-width)
@@ -186,18 +185,17 @@
               (point-at-bol))))
 
 (defun mol-tree-indent-to (num)
-  "Force indentation to level including those below current level"
+  "Force indentation to level including those below current level."
   (save-excursion
     (beginning-of-line)
     (delete-horizontal-space)
     (indent-to num)))
 
 (defun mol-tree-move-region (begin end prog)
-  "Moves left is dir is null, otherwise right. prog is '+ or '-"
+  "Moves left is dir is null, otherwise right. prog is '+ or '-."
   (save-excursion
     (let (first-indent indent-diff
-	  (num-lines-indented (count-lines-region begin end))
-	  )
+	  (num-lines-indented (count-lines-region begin end)))
       (goto-char begin)
       (setq first-indent (current-indentation))
       (mol-tree-indent-to
@@ -210,7 +208,7 @@
 	(forward-line 1)))))
 
 (defun mol-tree-indent-region (begin end)
-  "Indents the selected region"
+  "Indents the selected region."
   (interactive)
   (mol-tree-move-region begin end '+))
 
@@ -218,6 +216,7 @@
 ;; shift left or rigth block
 
 (defun mol-tree-shift-region (distance)
+  "Move region left or right."
   (let ((mark (mark)))
     (save-excursion
       (indent-rigidly (region-beginning) (region-end) distance)
@@ -227,10 +226,12 @@
       (setq deactivate-mark nil))))
 
 (defun mol-tree-shift-right ()
+  "Move selected region to the right."
   (interactive)
   (mol-tree-shift-region tab-width))
 
 (defun mol-tree-shift-left ()
+  "Move selected region to the left."
   (interactive)
   (mol-tree-shift-region (- tab-width)))
 
@@ -269,6 +270,9 @@
   ;; ensure using tabs for indention only
   (setq-local indent-tabs-mode t)
   (setq-local tab-always-indent t))
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.tree\\'" . mol-tree-mode))
 
 (provide 'mol-tree-mode)
 

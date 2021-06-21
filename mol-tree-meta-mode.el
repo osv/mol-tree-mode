@@ -1,8 +1,10 @@
-;;; mol-tree-view-mode.el --- Major mode for $mol .meta.tree
+;;; mol-tree-meta-mode.el --- Major mode for $mol .meta.tree
 ;;;
 ;;; URL: https://github.com/osv/mol-tree-mode
 ;;; Author: Sydorchuk Olexandr
 ;;;
+
+;;; Code:
 
 (defvar mol-tree-meta-font-lock-keywords
   `(
@@ -33,5 +35,10 @@
   (setq font-lock-defaults '(mol-tree-meta-font-lock-keywords t))
   (setq-local comment-start "- ")
   (setq-local comment-start-skip "-+ *"))
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.meta\\.tree\\'" . mol-tree-meta-mode))
+
+(provide 'mol-tree-meta-mode)
 
 ;;; mol-tree-meta-mode.el ends here

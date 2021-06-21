@@ -4,6 +4,8 @@
 ;;; Author: Sydorchuk Olexandr
 ;;;
 
+;;; Code:
+
 (defcustom mol-tree-view-block-literal-search-lines 100
   "*Maximum number of lines to search for start of block literals."
   :type 'integer
@@ -12,10 +14,10 @@
 
 ;; Constants
 
-(defconst mol-tree-blank-line-re "^ *$"
+(defconst mol-tree-view-modeblank-line-re "^ *$"
   "Regexp matching a line containing only (valid) whitespace.")
 
-(defconst mol-tree-block-literal-re
+(defconst mol-tree-view-mode-block-literal-re
   "\\(?:^\\(?:--- \\)?\\|{\\|\\(?: *[-,] +\\)+\\) *\\(?:\\(?:[^-:,#!\n{\\[ ]\\|[^#!\n{\\[ ]\\S-\\)[^#\n]*? *: \\)?\t*\\(?:- .*\n\\|\n\\)"
   "Regexp matching a line beginning of comment block.")
 
@@ -36,7 +38,7 @@
 ;;     (let ((begin (point))
 ;;           (end (min (1+ (point-at-eol)) bound)))
 ;;       (goto-char (point-at-bol))
-;;       (while (and (looking-at mol-tree-blank-line-re)
+;;       (while (and (looking-at mol-tree-view-modeblank-line-re)
 ;;                   (not (bobp)))
 ;;         (forward-line -1))
 ;;       (let ((nlines mol-tree-view-block-literal-search-lines)
@@ -44,24 +46,24 @@
 ;;         (forward-line -1)
 ;;         (while (and (/= nlines 0)
 ;;                     (/= min-level 0)
-;;                     (not (looking-at mol-tree-block-literal-re))
+;;                     (not (looking-at mol-tree-view-mode-block-literal-re))
 ;;                     (not (bobp)))
 ;;           (setq nlines (1- nlines))
-;;           (unless (looking-at mol-tree-blank-line-re)
+;;           (unless (looking-at mol-tree-view-modeblank-line-re)
 ;;             (setq min-level (min min-level (current-indentation))))
 ;;           (forward-line -1))
 ;;         (when (looking-at-p " *- ")
 ;;           (setq min-level (- min-level 2)))
 ;;         (cond
 ;;          ((and (< (current-indentation) min-level)
-;;                (looking-at mol-tree-block-literal-re))
+;;                (looking-at mol-tree-view-mode-block-literal-re))
 ;;           (goto-char end)
 ;;           (put-text-property begin end 'mol-tree-block-literal t)
 ;;           (set-match-data (list begin end))
 ;;           t)
 ;;          ((progn
 ;;             (goto-char begin)
-;;             (re-search-forward (concat mol-tree-block-literal-re
+;;             (re-search-forward (concat mol-tree-view-mode-block-literal-re
 ;;                                        " *\\(.*\\)\n")
 ;;                                bound t))
 ;;           (let ((range (nthcdr 2 (match-data))))
@@ -92,8 +94,7 @@
     ("\\(\\w+\\(<=>\\|<=\\|=>\\)\\|\\(<=>\\|<=\\|=>\\)\\w+\\)" 0 'mol-tree-error-face)
     ;; strings
     (,mol-tree-fl-raw-re 0 'font-lock-string-face t)
-    ("@\\W*\\\\.*$" 0 'font-lock-doc-face t)
-    )
+    ("@\\W*\\\\.*$" 0 'font-lock-doc-face t))
     "Font lock keywords for mol-tree-view mode.")
 
 
@@ -108,5 +109,10 @@
   (setq font-lock-defaults '(mol-tree-view-font-lock-keywords t))
   (setq-local comment-start "- ")
   (setq-local comment-start-skip "-+ *"))
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.view\\.tree\\'" . mol-tree-view-mode))
+
+(provide 'mol-tree-view-mode)
 
 ;;; mol-tree-view-mode.el ends here
