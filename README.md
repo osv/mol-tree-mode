@@ -8,7 +8,7 @@ Major mode for editing [$mol tree](https://github.com/nin-jin/tree.d) files.
 
 ## Features
 
-- Syntax highlighting including `.meta`, `.view.tree`
+- Syntax highlighting for `.tree` files (including `.meta.tree`, `.view.tree`)
 - Showing errors: wrong whitespaces
 
 ## Hotkeys
