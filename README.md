@@ -1,4 +1,4 @@
-# tree-mode
+# mol-tree-mode
 
 Major mode for editing [$mol tree](https://github.com/nin-jin/tree.d) files.
 
