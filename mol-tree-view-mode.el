@@ -6,6 +6,8 @@
 
 ;;; Code:
 
+(require 'mol-tree-mode)
+
 (defcustom mol-tree-view-block-literal-search-lines 100
   "*Maximum number of lines to search for start of block literals."
   :type 'integer
