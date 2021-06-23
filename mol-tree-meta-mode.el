@@ -6,6 +6,8 @@
 
 ;;; Code:
 
+(require 'mol-tree-mode)
+
 (defvar mol-tree-meta-font-lock-keywords
   `(
     ("^\\(pack\\|include\\|require\\|deploy\\)\\b" . (1 font-lock-builtin-face))
