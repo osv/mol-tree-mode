@@ -77,10 +77,14 @@
   `(
     ;; (mol-tree-font-lock-block-literals 0 font-lock-comment-face)
     (,mol-tree-fl-builtin-values-re . font-lock-builtin-face)
+    ;; params ? or !, e.g speed?val
     ("\\w\\([?!]\\)\\w" . (1 font-lock-comment-delimiter-face))
     ("[?!]\\(\\w+\\)" . (1 font-lock-constant-face))
-    ;; Foo $bar
-    ("\\([[:upper:]]\\w*\\).*?\\$" . (1 font-lock-variable-name-face))
+    ;; <= Foo
+    ("<= \\([[:upper:]]\\w*\\)" . (1 font-lock-variable-name-face))
+    ;; \t\w+ or any bind function <= <=> =>
+    ("\\W\\(<=>\\|<=\\|=>\\)\\W\\(\\w+\\)" . (2 font-lock-function-name-face))
+    ("^\t\\(\\w+\\)" . (1 font-lock-function-name-face))
     ;; $foo_bar
     ("$\\w+" . font-lock-type-face)
     ;; /foo - type of array
